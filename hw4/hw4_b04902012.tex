@@ -1,0 +1,28 @@
+\documentclass{report}
+\usepackage{hyperref}
+\usepackage{fontspec,xunicode}
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{nopageno}
+\usepackage{ulem}
+\setmainfont{AR PL UKai TW}
+\usepackage{CJK}
+\XeTeXlinebreaklocale "zh"
+\usepackage{type1cm}
+\begin{document}
+\pagestyle{plain}
+\fontsize{12pt}{20pt}\selectfont
+\begin{center}
+	\Huge{計算機結構 作業四}\\ 
+	\huge{B04902012 劉瀚聲}\\ 
+	\huge{2016.11.20}\\ 
+\end{center}
+	
+\noindent{\huge Coding Environment}\\
+　　這個專案在 \texttt{Linux 4.13.11-1} 上被編程和測試運行。在本地經 \texttt{iverilog} 編譯、\texttt{vpp} 執行，與 \texttt{output.txt} 核對後正確無誤。\\
+
+\noindent{\huge Module Implementation}\\
+　　這個專案以 \texttt{CPU.v} 為核心，遵循 \texttt{hw4.pdf} 中所給定的 datapath，在 module \texttt{CPU} 中以 wire 將各個元件連接在一起。\\
+　　ALU Operation Code 和 ALU Control Code 皆與實際使用的值一致。唯元件 \texttt{ALU\_Control} 中，由於官方文件並沒有給出 \texttt{mult} 的 ALU Control Code，我擅自使用 \texttt{011} 代替之。\\
+
+\end{document}　
