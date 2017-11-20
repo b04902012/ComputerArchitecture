@@ -14,7 +14,12 @@ input               start_i;
 wire    [31:0]  inst_addr,inst;
 wire    [31:0]  inst_addr_new;
 wire    [1:0]   ALUOp;
-wire RegDst, ALUOp, ALUSrc, RegWrite;
+wire     [2:0]  ALUCtrl;
+wire    [31:0]  immed;
+wire    [4:0]  writeReg;
+wire    [31:0]  Reg_data1,Reg_data2,ALU2,ALUData;
+wire RegDst, ALUSrc, RegWrite;
+wire Zero;
 Adder Add_PC(
     .data1_in   (inst_addr),
     .data2_in   (32'd4),
@@ -37,55 +42,55 @@ Instruction_Memory Instruction_Memory(
 
 Registers Registers(
     .clk_i      (clk_i),
-    .RSaddr_i   (),
-    .RTaddr_i   (),
-    .RDaddr_i   (), 
-    .RDdata_i   (),
+    .RSaddr_i   (inst[25:21]),
+    .RTaddr_i   (inst[20:16]),
+    .RDaddr_i   (writeReg),
+    .RDdata_i   (ALUData),
     .RegWrite_i (RegWrite), 
-    .RSdata_o   (), 
-    .RTdata_o   () 
+    .RSdata_o   (Reg_data1), 
+    .RTdata_o   (Reg_data2) 
 );
 
 ///*
 MUX5 MUX_RegDst(
-    .data1_i    (),
-    .data2_i    (),
+    .data1_i    (inst[20:16]),
+    .data2_i    (inst[15:11]),
     .select_i   (RegDst),
-    .data_o     ()
+    .data_o     (writeReg)
 );
 //*/
 
 ///*
 MUX32 MUX_ALUSrc(
-    .data1_i    (),
-    .data2_i    (),
-    .select_i   (),
-    .data_o     ()
+    .data1_i    (Reg_data2),
+    .data2_i    (immed),
+    .select_i   (ALUSrc),
+    .data_o     (ALU2)
 );
 //*/
 
 ///*
 Sign_Extend Sign_Extend(
     .data_i     (inst[15:0]),
-    .data_o     ()
+    .data_o     (immed)
 );
 //*/
   
-/*
+///*
 ALU ALU(
-    .data1_i    (),
-    .data2_i    (),
-    .ALUCtrl_i  (),
-    .data_o     (),
-    .Zero_o     ()
+    .data1_i    (Reg_data1),
+    .data2_i    (ALU2),
+    .ALUCtrl_i  (ALUCtrl),
+    .data_o     (ALUData),
+    .Zero_o     (Zero)
 );
-*/
+//*/
 
 ///*
 ALU_Control ALU_Control(
     .funct_i    (inst[5:0]),
     .ALUOp_i    (ALUOp),
-    .ALUCtrl_o  ()
+    .ALUCtrl_o  (ALUCtrl)
 );
 //*/
 
